@@ -840,18 +840,14 @@
       if (b.income > 0) {
         const h = (b.income / maxVal) * chartH;
         ctx.fillStyle = '#22c55e';
-        ctx.beginPath();
-        ctx.roundRect(cx - barW - 2, padT + chartH - h, barW, h, [3, 3, 0, 0]);
-        ctx.fill();
+        ctx.fillRect(cx - barW - 2, padT + chartH - h, barW, h);
       }
 
       // Expense bar (right of center)
       if (b.expense > 0) {
         const h = (b.expense / maxVal) * chartH;
         ctx.fillStyle = '#ef4444';
-        ctx.beginPath();
-        ctx.roundRect(cx + 2, padT + chartH - h, barW, h, [3, 3, 0, 0]);
-        ctx.fill();
+        ctx.fillRect(cx + 2, padT + chartH - h, barW, h);
       }
 
       // Month label
