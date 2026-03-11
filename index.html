@@ -7,21 +7,25 @@
   <style>
     /* ── Design tokens ── */
     :root {
-      --green:       #22c55e;
-      --green-light: #dcfce7;
-      --red:         #ef4444;
-      --red-light:   #fee2e2;
-      --blue:        #3b82f6;
-      --blue-light:  #dbeafe;
-      --gray-50:     #f9fafb;
-      --gray-100:    #f3f4f6;
-      --gray-200:    #e5e7eb;
-      --gray-400:    #9ca3af;
-      --gray-600:    #4b5563;
-      --gray-800:    #1f2937;
-      --white:       #ffffff;
-      --radius:      12px;
-      --shadow:      0 1px 3px rgba(0,0,0,.10), 0 1px 2px rgba(0,0,0,.06);
+      --green:        #22c55e;
+      --green-light:  #dcfce7;
+      --red:          #ef4444;
+      --red-light:    #fee2e2;
+      --blue:         #3b82f6;
+      --blue-light:   #dbeafe;
+      --purple:       #a855f7;
+      --purple-light: #f3e8ff;
+      --amber:        #f59e0b;
+      --amber-light:  #fef3c7;
+      --gray-50:      #f9fafb;
+      --gray-100:     #f3f4f6;
+      --gray-200:     #e5e7eb;
+      --gray-400:     #9ca3af;
+      --gray-600:     #4b5563;
+      --gray-800:     #1f2937;
+      --white:        #ffffff;
+      --radius:       12px;
+      --shadow:       0 1px 3px rgba(0,0,0,.10), 0 1px 2px rgba(0,0,0,.06);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -56,12 +60,6 @@
       padding: 20px 16px 40px;
     }
 
-    .card {
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-    }
-
     .section {
       background: var(--white);
       border-radius: var(--radius);
@@ -78,7 +76,7 @@
       margin-bottom: 14px;
     }
 
-    /* ── Summary cards ── */
+    /* ── Summary cards (top 3) ── */
     .summary {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -107,12 +105,88 @@
     .summary-card.expense .summary-value { color: var(--red); }
     .summary-card.balance .summary-value { color: var(--blue); }
 
-    /* ── Type toggle ── */
-    .type-toggle {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 14px;
+    /* ── Compact 2-col grid (weekly cashflow + tax tracker) ── */
+    .compact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
     }
+    .compact-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 16px 14px;
+      box-shadow: var(--shadow);
+    }
+    .compact-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--gray-400);
+      margin-bottom: 10px;
+    }
+    .mini-stats { display: flex; flex-direction: column; gap: 5px; }
+    .mini-stat  { display: flex; justify-content: space-between; align-items: baseline; }
+    .mini-stat-label { font-size: 0.72rem; color: var(--gray-600); }
+    .mini-stat-value { font-size: 0.88rem; font-weight: 700; }
+    .mini-stat-value.green  { color: var(--green); }
+    .mini-stat-value.red    { color: var(--red); }
+    .mini-stat-value.blue   { color: var(--blue); }
+    .mini-stat-value.amber  { color: var(--amber); }
+    .mini-divider { border: none; border-top: 1px solid var(--gray-100); margin: 4px 0; }
+    .mini-note { font-size: 0.67rem; color: var(--gray-400); margin-top: 6px; line-height: 1.4; }
+
+    /* Tax % inline setting */
+    .tax-setting {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 9px;
+    }
+    .tax-setting label {
+      display: inline;
+      font-size: 0.67rem;
+      font-weight: 600;
+      color: var(--gray-400);
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      white-space: nowrap;
+    }
+    .tax-setting input {
+      width: 48px;
+      padding: 3px 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-align: center;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 6px;
+      background: var(--gray-50);
+      outline: none;
+    }
+    .tax-setting input:focus { border-color: var(--blue); background: var(--white); }
+    .tax-setting span { font-size: 0.78rem; color: var(--gray-600); }
+
+    /* ── Tag pills ── */
+    .tag-pill {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+    .tag-pill.business { background: var(--blue-light);   color: #1d4ed8; }
+    .tag-pill.personal { background: var(--green-light);  color: #15803d; }
+    .tag-pill.family   { background: var(--purple-light); color: #7e22ce; }
+    .tag-pill.tax      { background: var(--amber-light);  color: #b45309; }
+
+    /* ── Type toggle ── */
+    .type-toggle { display: flex; gap: 8px; margin-bottom: 14px; }
     .type-btn {
       flex: 1;
       padding: 8px;
@@ -170,41 +244,42 @@
     }
     .btn:active { transform: scale(.97); }
     .btn:hover  { opacity: .88; }
-    .btn-primary { background: var(--blue);    color: white; }
-    .btn-success { background: var(--green);   color: white; }
-    .btn-danger  { background: var(--red);     color: white; }
+    .btn-primary { background: var(--blue);     color: white; }
+    .btn-danger  { background: var(--red);      color: white; }
     .btn-gray    { background: var(--gray-200); color: var(--gray-800); }
     .btn-sm      { padding: 5px 10px; font-size: 0.73rem; border-radius: 6px; }
-    .btn-full    { width: 100%; margin-top: 6px; }
+    .btn-full    { width: 100%; margin-top: 8px; }
 
     /* ── Filters ── */
     .filters {
       display: flex;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 8px;
     }
-    .filters select { flex: 1; min-width: 150px; max-width: 220px; }
+    .filters select { flex: 1; min-width: 140px; max-width: 210px; }
 
-    .filter-type {
+    .filter-pills {
       display: flex;
       border: 1.5px solid var(--gray-200);
       border-radius: 8px;
       overflow: hidden;
       background: var(--white);
+      flex-wrap: nowrap;
     }
-    .filter-type button {
-      padding: 7px 12px;
+    .filter-pills button {
+      padding: 6px 10px;
       border: none;
       background: none;
-      font-size: 0.78rem;
+      font-size: 0.73rem;
       font-weight: 600;
       cursor: pointer;
       color: var(--gray-600);
       transition: all .15s;
+      white-space: nowrap;
     }
-    .filter-type button.active { background: var(--blue); color: white; }
+    .filter-pills button.active { background: var(--blue); color: white; }
 
     /* ── Chart ── */
     canvas { display: block; width: 100%; border-radius: 6px; }
@@ -262,13 +337,57 @@
     }
     .tx-amount.income  { color: var(--green); }
     .tx-amount.expense { color: var(--red); }
-
     .tx-actions { display: flex; gap: 4px; flex-shrink: 0; }
 
     .empty-state {
       text-align: center; color: var(--gray-400);
-      padding: 36px 16px; font-size: 0.875rem;
+      padding: 32px 16px; font-size: 0.875rem;
     }
+
+    /* ── Recurring bills ── */
+    .rec-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .rec-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 10px;
+    }
+    .rec-item.due-soon {
+      border-color: var(--amber);
+      background: var(--amber-light);
+    }
+    .rec-info { flex: 1; min-width: 0; }
+    .rec-name { font-size: 0.85rem; font-weight: 600; }
+    .rec-meta { font-size: 0.71rem; color: var(--gray-400); }
+    .rec-amount { font-size: 0.9rem; font-weight: 700; color: var(--red); flex-shrink: 0; }
+    .rec-actions { display: flex; gap: 4px; flex-shrink: 0; }
+
+    .due-soon-badge {
+      font-size: 0.62rem;
+      font-weight: 700;
+      background: var(--amber);
+      color: white;
+      padding: 1px 5px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin-left: 5px;
+    }
+
+    .rec-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      margin-top: 4px;
+      border-top: 1px solid var(--gray-100);
+    }
+    .rec-footer-label { font-size: 0.82rem; color: var(--gray-600); }
+    .rec-footer-value { font-size: 1.05rem; font-weight: 800; color: var(--red); }
 
     /* ── Footer actions ── */
     .footer-actions {
@@ -309,6 +428,7 @@
     @media (max-width: 480px) {
       .summary { grid-template-columns: 1fr 1fr; }
       .summary-card.balance { grid-column: span 2; }
+      .compact-grid { grid-template-columns: 1fr; }
       .form-row { grid-template-columns: 1fr; }
       .summary-value { font-size: 1.1rem; }
     }
@@ -328,7 +448,7 @@
 
 <div class="container">
 
-  <!-- ═══════════════════ SUMMARY ═══════════════════ -->
+  <!-- ═══════════════════ SUMMARY CARDS ═══════════════════ -->
   <div class="summary">
     <div class="summary-card income">
       <div class="summary-label">Income</div>
@@ -344,11 +464,61 @@
     </div>
   </div>
 
+  <!-- ═══════════════════ WEEKLY CASHFLOW + TAX TRACKER ═══════════════════ -->
+  <div class="compact-grid">
+
+    <!-- Weekly Cashflow -->
+    <div class="compact-card">
+      <div class="compact-title">📅 This Week</div>
+      <div class="mini-stats">
+        <div class="mini-stat">
+          <span class="mini-stat-label">Income</span>
+          <span class="mini-stat-value green" id="week-income">$0</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-label">Expenses</span>
+          <span class="mini-stat-value red" id="week-expense">$0</span>
+        </div>
+        <hr class="mini-divider">
+        <div class="mini-stat">
+          <span class="mini-stat-label">Net</span>
+          <span class="mini-stat-value blue" id="week-net">$0</span>
+        </div>
+      </div>
+      <div class="mini-note" id="week-lastnet"></div>
+    </div>
+
+    <!-- Tax Set-Aside Tracker -->
+    <div class="compact-card">
+      <div class="compact-title">🧾 Tax Set-Aside</div>
+      <div class="tax-setting">
+        <label for="tax-pct">Rate</label>
+        <input type="number" id="tax-pct" value="25" min="1" max="99" step="1" oninput="saveTaxPct()" />
+        <span>%</span>
+      </div>
+      <div class="mini-stats">
+        <div class="mini-stat">
+          <span class="mini-stat-label">Target</span>
+          <span class="mini-stat-value amber" id="tax-target">$0</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-label">Saved</span>
+          <span class="mini-stat-value green" id="tax-saved">$0</span>
+        </div>
+        <hr class="mini-divider">
+        <div class="mini-stat">
+          <span class="mini-stat-label">Gap</span>
+          <span class="mini-stat-value red" id="tax-gap">$0</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
   <!-- ═══════════════════ ADD TRANSACTION ═══════════════════ -->
   <div class="section">
     <div class="section-title">Add Transaction</div>
 
-    <!-- Income / Expense toggle -->
     <div class="type-toggle">
       <button class="type-btn income active" id="btn-income"  onclick="setType('income')">＋ Income</button>
       <button class="type-btn expense"       id="btn-expense" onclick="setType('expense')">－ Expense</button>
@@ -371,9 +541,19 @@
         <select id="form-category"></select>
       </div>
       <div>
-        <label for="form-note">Note (optional)</label>
-        <input type="text" id="form-note" placeholder="e.g. 3-car detail job" maxlength="80" />
+        <label for="form-tag">Account Tag</label>
+        <select id="form-tag">
+          <option value="personal">Personal</option>
+          <option value="business">Business</option>
+          <option value="family">Family</option>
+          <option value="tax">Tax</option>
+        </select>
       </div>
+    </div>
+
+    <div style="margin-bottom:8px">
+      <label for="form-note">Note (optional)</label>
+      <input type="text" id="form-note" placeholder="e.g. 3-car detail job" maxlength="80" />
     </div>
 
     <button class="btn btn-primary btn-full" onclick="submitForm()">Add Transaction</button>
@@ -393,33 +573,55 @@
   <div class="section">
     <div class="section-title">Transactions</div>
 
-    <!-- Filters -->
+    <!-- Row 1: Month filter + type filter -->
     <div class="filters">
       <select id="filter-month" onchange="render()"></select>
-      <div class="filter-type">
-        <button class="active"  onclick="setFilterType('all',this)">All</button>
+      <div class="filter-pills" id="filter-type-btns">
+        <button class="active" onclick="setFilterType('all',this)">All</button>
         <button onclick="setFilterType('income',this)">Income</button>
         <button onclick="setFilterType('expense',this)">Expense</button>
       </div>
     </div>
 
-    <!-- List -->
+    <!-- Row 2: Tag filter -->
+    <div class="filters" style="margin-bottom:14px">
+      <div class="filter-pills" id="filter-tag-btns">
+        <button class="active" onclick="setFilterTag('all',this)">All Tags</button>
+        <button onclick="setFilterTag('personal',this)">Personal</button>
+        <button onclick="setFilterTag('business',this)">Business</button>
+        <button onclick="setFilterTag('family',this)">Family</button>
+        <button onclick="setFilterTag('tax',this)">Tax</button>
+      </div>
+    </div>
+
     <div class="tx-list" id="tx-list"></div>
+  </div>
+
+  <!-- ═══════════════════ RECURRING BILLS ═══════════════════ -->
+  <div class="section">
+    <div class="section-title">Recurring Bills</div>
+    <div class="rec-list" id="rec-list"></div>
+    <button class="btn btn-gray btn-sm" style="margin-top:12px" onclick="openAddRecurring()">＋ Add Recurring Bill</button>
+    <div class="rec-footer">
+      <span class="rec-footer-label">Monthly Fixed Costs</span>
+      <span class="rec-footer-value" id="rec-total">$0.00</span>
+    </div>
   </div>
 
   <!-- ═══════════════════ FOOTER ACTIONS ═══════════════════ -->
   <div class="footer-actions">
-    <button class="btn btn-gray btn-sm" onclick="exportData()">⬇ Export JSON</button>
+    <button class="btn btn-gray btn-sm" onclick="exportJSON()">⬇ Export JSON</button>
     <label  class="btn btn-gray btn-sm" style="cursor:pointer">
       ⬆ Import JSON
       <input type="file" accept=".json" onchange="importData(event)" style="display:none" />
     </label>
+    <button class="btn btn-gray btn-sm" onclick="exportCSV()">⬇ Export CSV</button>
     <button class="btn btn-danger btn-sm" onclick="clearAll()">🗑 Clear All Data</button>
   </div>
 
 </div><!-- /container -->
 
-<!-- ═══════════════════ EDIT MODAL ═══════════════════ -->
+<!-- ═══════════════════ EDIT TRANSACTION MODAL ═══════════════════ -->
 <div class="modal-overlay" id="edit-modal" onclick="handleOverlayClick(event)">
   <div class="modal">
     <div class="modal-title">Edit Transaction</div>
@@ -446,14 +648,73 @@
         <select id="edit-category"></select>
       </div>
       <div>
-        <label for="edit-note">Note</label>
-        <input type="text" id="edit-note" placeholder="optional" maxlength="80" />
+        <label for="edit-tag">Account Tag</label>
+        <select id="edit-tag">
+          <option value="personal">Personal</option>
+          <option value="business">Business</option>
+          <option value="family">Family</option>
+          <option value="tax">Tax</option>
+        </select>
       </div>
+    </div>
+
+    <div style="margin-bottom:10px">
+      <label for="edit-note">Note</label>
+      <input type="text" id="edit-note" placeholder="optional" maxlength="80" />
     </div>
 
     <div class="modal-actions">
       <button class="btn btn-gray"    onclick="closeModal()">Cancel</button>
       <button class="btn btn-primary" onclick="saveEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ RECURRING BILL MODAL ═══════════════════ -->
+<div class="modal-overlay" id="rec-modal" onclick="handleRecOverlayClick(event)">
+  <div class="modal">
+    <div class="modal-title" id="rec-modal-title">Add Recurring Bill</div>
+
+    <div class="form-row">
+      <div>
+        <label for="rec-name">Bill Name</label>
+        <input type="text" id="rec-name" placeholder="e.g. Netflix" maxlength="60" />
+      </div>
+      <div>
+        <label for="rec-amount">Amount ($)</label>
+        <input type="number" id="rec-amount" placeholder="0.00" min="0" step="0.01" />
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div>
+        <label for="rec-due-day">Due Day (1–31)</label>
+        <input type="number" id="rec-due-day" placeholder="1" min="1" max="31" step="1" />
+      </div>
+      <div>
+        <label for="rec-category">Category</label>
+        <select id="rec-category">
+          <option>Rent</option>
+          <option>Utilities</option>
+          <option>Vehicle</option>
+          <option>Supplies</option>
+          <option>Tools</option>
+          <option>Food</option>
+          <option>Gas</option>
+          <option>Kids</option>
+          <option>Misc</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-bottom:10px">
+      <label for="rec-note">Note (optional)</label>
+      <input type="text" id="rec-note" placeholder="optional" maxlength="80" />
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-gray"    onclick="closeRecModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveRecurringBill()">Save Bill</button>
     </div>
   </div>
 </div>
@@ -469,24 +730,29 @@
     expense: ['Gas', 'Food', 'Supplies', 'Tools', 'Rent', 'Utilities', 'Vehicle', 'Kids', 'Misc']
   };
 
-  // Emoji icons mapped to category names
   const ICONS = {
     'Pressure Washing': '🚿', 'Detailing': '🚗', 'DoorDash': '🛵', 'Other': '💼',
     'Gas': '⛽', 'Food': '🍔', 'Supplies': '📦', 'Tools': '🔧',
     'Rent': '🏠', 'Utilities': '💡', 'Vehicle': '🚙', 'Kids': '👶', 'Misc': '📌'
   };
 
-  const LS_KEY = 'budgetpro_v1';
+  const LS_KEY       = 'budgetpro_v1';
+  const LS_SETTINGS  = 'budgetpro_settings';
+  const LS_RECURRING = 'budgetpro_recurring';
 
   // ─────────────────────────────────────────────────────────
   // STATE
   // ─────────────────────────────────────────────────────────
 
-  let transactions = [];   // array of transaction objects
-  let currentType  = 'income';   // active type in add-form
-  let editType     = 'income';   // active type in edit-modal
-  let editId       = null;       // id of transaction being edited
-  let filterType   = 'all';      // 'all' | 'income' | 'expense'
+  let transactions = [];
+  let recurring    = [];
+  let currentType  = 'income';
+  let editType     = 'income';
+  let editId       = null;
+  let recEditId    = null;
+  let filterType   = 'all';
+  let filterTag    = 'all';
+  let taxPct       = 25;
 
   // ─────────────────────────────────────────────────────────
   // STORAGE
@@ -499,20 +765,55 @@
   function loadData() {
     const raw = localStorage.getItem(LS_KEY);
     if (raw) {
-      try { transactions = JSON.parse(raw); } catch { transactions = []; }
+      try {
+        transactions = JSON.parse(raw);
+        // Migration: add tag:'personal' to any transaction missing it
+        transactions = transactions.map(t => ({ tag: 'personal', ...t }));
+      } catch { transactions = []; }
     } else {
-      seedData(); // first-time load: add example transactions
+      seedData();
+    }
+  }
+
+  function saveSettings() {
+    localStorage.setItem(LS_SETTINGS, JSON.stringify({ taxPct }));
+  }
+
+  function loadSettings() {
+    const raw = localStorage.getItem(LS_SETTINGS);
+    if (raw) {
+      try {
+        const s = JSON.parse(raw);
+        if (typeof s.taxPct === 'number') taxPct = s.taxPct;
+      } catch {}
+    }
+    document.getElementById('tax-pct').value = taxPct;
+  }
+
+  function saveTaxPct() {
+    const v = parseFloat(document.getElementById('tax-pct').value);
+    if (v > 0 && v <= 99) taxPct = v;
+    saveSettings();
+    renderTaxTracker();
+  }
+
+  function saveRecurringData() {
+    localStorage.setItem(LS_RECURRING, JSON.stringify(recurring));
+  }
+
+  function loadRecurringData() {
+    const raw = localStorage.getItem(LS_RECURRING);
+    if (raw) {
+      try { recurring = JSON.parse(raw); } catch { recurring = []; }
     }
   }
 
   // ─────────────────────────────────────────────────────────
-  // SEED DATA  (only runs on very first load)
+  // SEED DATA  (only on very first load — no existing localStorage)
   // ─────────────────────────────────────────────────────────
 
   function seedData() {
     const today = new Date();
-
-    // Helper: date string N days ago
     function ago(days) {
       const d = new Date(today);
       d.setDate(d.getDate() - days);
@@ -520,18 +821,19 @@
     }
 
     transactions = [
-      { id: uid(), type: 'income',  amount: 320,   category: 'Pressure Washing', date: ago(2),  note: '4-house job in the neighborhood' },
-      { id: uid(), type: 'income',  amount: 150,   category: 'Detailing',        date: ago(5),  note: 'Full detail on SUV' },
-      { id: uid(), type: 'income',  amount: 87.50, category: 'DoorDash',         date: ago(7),  note: 'Friday evening shift' },
-      { id: uid(), type: 'expense', amount: 65,    category: 'Gas',              date: ago(3),  note: 'Fill up truck' },
-      { id: uid(), type: 'expense', amount: 42,    category: 'Supplies',         date: ago(6),  note: 'Soap, microfiber towels' },
-      { id: uid(), type: 'expense', amount: 850,   category: 'Rent',             date: ago(10), note: 'Monthly rent' },
-      { id: uid(), type: 'income',  amount: 200,   category: 'Pressure Washing', date: ago(15), note: 'Driveway + back patio' },
-      { id: uid(), type: 'expense', amount: 38,    category: 'Food',             date: ago(4),  note: 'Grocery run' },
-      { id: uid(), type: 'expense', amount: 120,   category: 'Vehicle',          date: ago(20), note: 'Oil change + new wipers' },
-      { id: uid(), type: 'income',  amount: 260,   category: 'Detailing',        date: ago(22), note: '2-car detail package' },
-      { id: uid(), type: 'income',  amount: 95,    category: 'DoorDash',         date: ago(35), note: 'Weekend shift' },
-      { id: uid(), type: 'expense', amount: 55,    category: 'Tools',            date: ago(38), note: 'New foam cannon' },
+      { id: uid(), type: 'income',  amount: 320,   category: 'Pressure Washing', tag: 'business', date: ago(2),  note: '4-house job in the neighborhood' },
+      { id: uid(), type: 'income',  amount: 150,   category: 'Detailing',        tag: 'business', date: ago(5),  note: 'Full detail on SUV' },
+      { id: uid(), type: 'income',  amount: 87.50, category: 'DoorDash',         tag: 'personal', date: ago(7),  note: 'Friday evening shift' },
+      { id: uid(), type: 'income',  amount: 90,    category: 'Other',            tag: 'tax',      date: ago(8),  note: 'Tax set-aside — 25% of income' },
+      { id: uid(), type: 'expense', amount: 65,    category: 'Gas',              tag: 'business', date: ago(3),  note: 'Fill up truck' },
+      { id: uid(), type: 'expense', amount: 42,    category: 'Supplies',         tag: 'business', date: ago(6),  note: 'Soap, microfiber towels' },
+      { id: uid(), type: 'expense', amount: 850,   category: 'Rent',             tag: 'personal', date: ago(10), note: 'Monthly rent' },
+      { id: uid(), type: 'income',  amount: 200,   category: 'Pressure Washing', tag: 'business', date: ago(15), note: 'Driveway + back patio' },
+      { id: uid(), type: 'expense', amount: 38,    category: 'Food',             tag: 'family',   date: ago(4),  note: 'Grocery run' },
+      { id: uid(), type: 'expense', amount: 120,   category: 'Vehicle',          tag: 'business', date: ago(20), note: 'Oil change + new wipers' },
+      { id: uid(), type: 'income',  amount: 260,   category: 'Detailing',        tag: 'business', date: ago(22), note: '2-car detail package' },
+      { id: uid(), type: 'income',  amount: 95,    category: 'DoorDash',         tag: 'personal', date: ago(35), note: 'Weekend shift' },
+      { id: uid(), type: 'expense', amount: 55,    category: 'Tools',            tag: 'business', date: ago(38), note: 'New foam cannon' },
     ];
 
     saveData();
@@ -541,21 +843,46 @@
   // UTILITIES
   // ─────────────────────────────────────────────────────────
 
-  // Generate a short unique id
   function uid() {
     return Date.now().toString(36) + Math.random().toString(36).slice(2);
   }
 
-  // Format a number as dollar string: 1234.5 → "$1,234.50"
   function fmt$(n) {
     return '$' + Number(n).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
-  // Format "YYYY-MM-DD" → "Mar 2, 2026"
   function fmtDate(str) {
     const [y, m, d] = str.split('-');
     const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     return `${months[+m - 1]} ${+d}, ${y}`;
+  }
+
+  // Returns { start, end } as 'YYYY-MM-DD' strings for a Mon–Sun week.
+  // offsetWeeks: 0 = current week, -1 = last week, etc.
+  function getWeekRange(offsetWeeks) {
+    const now = new Date();
+    const day = now.getDay(); // 0=Sun, 1=Mon ... 6=Sat
+    const diffToMon = (day === 0) ? -6 : 1 - day;
+    const mon = new Date(now);
+    mon.setDate(now.getDate() + diffToMon + offsetWeeks * 7);
+    mon.setHours(0, 0, 0, 0);
+    const sun = new Date(mon);
+    sun.setDate(mon.getDate() + 6);
+    function ymd(d) { return d.toISOString().split('T')[0]; }
+    return { start: ymd(mon), end: ymd(sun) };
+  }
+
+  // Simple HTML escape to prevent XSS in user-supplied strings
+  function escHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // Day-of-month ordinal suffix: 1→"st", 2→"nd", 3→"rd", others→"th"
+  function ordinal(n) {
+    if (n === 1) return 'st';
+    if (n === 2) return 'nd';
+    if (n === 3) return 'rd';
+    return 'th';
   }
 
   // ─────────────────────────────────────────────────────────
@@ -584,22 +911,23 @@
   }
 
   // ─────────────────────────────────────────────────────────
-  // CRUD
+  // CRUD — TRANSACTIONS
   // ─────────────────────────────────────────────────────────
 
   function submitForm() {
     const amount = parseFloat(document.getElementById('form-amount').value);
     const date   = document.getElementById('form-date').value;
     const cat    = document.getElementById('form-category').value;
+    const tag    = document.getElementById('form-tag').value;
     const note   = document.getElementById('form-note').value.trim();
 
     if (!amount || amount <= 0) { alert('Please enter a valid amount.'); return; }
     if (!date)                  { alert('Please select a date.');        return; }
 
-    transactions.push({ id: uid(), type: currentType, amount, category: cat, date, note });
+    transactions.push({ id: uid(), type: currentType, amount, category: cat, tag, date, note });
     saveData();
 
-    // Reset inputs (keep date and type for fast repeated entry)
+    // Keep date + type for fast repeated entry; clear amount + note
     document.getElementById('form-amount').value = '';
     document.getElementById('form-note').value   = '';
 
@@ -618,8 +946,9 @@
     if (!t) return;
 
     editId = id;
-    setEditType(t.type);                                  // sets type + populates categories
-    document.getElementById('edit-category').value = t.category; // select correct category
+    setEditType(t.type);
+    document.getElementById('edit-category').value = t.category;
+    document.getElementById('edit-tag').value      = t.tag || 'personal';
     document.getElementById('edit-amount').value   = t.amount;
     document.getElementById('edit-date').value     = t.date;
     document.getElementById('edit-note').value     = t.note || '';
@@ -631,6 +960,7 @@
     const amount = parseFloat(document.getElementById('edit-amount').value);
     const date   = document.getElementById('edit-date').value;
     const cat    = document.getElementById('edit-category').value;
+    const tag    = document.getElementById('edit-tag').value;
     const note   = document.getElementById('edit-note').value.trim();
 
     if (!amount || amount <= 0) { alert('Please enter a valid amount.'); return; }
@@ -639,7 +969,7 @@
     const idx = transactions.findIndex(t => t.id === editId);
     if (idx === -1) return;
 
-    transactions[idx] = { id: editId, type: editType, amount, category: cat, date, note };
+    transactions[idx] = { id: editId, type: editType, amount, category: cat, tag, date, note };
     saveData();
     closeModal();
     render();
@@ -650,9 +980,75 @@
     editId = null;
   }
 
-  // Close modal when clicking the dark overlay (not the modal box itself)
   function handleOverlayClick(e) {
     if (e.target === document.getElementById('edit-modal')) closeModal();
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // CRUD — RECURRING BILLS
+  // ─────────────────────────────────────────────────────────
+
+  function openAddRecurring() {
+    recEditId = null;
+    document.getElementById('rec-modal-title').textContent = 'Add Recurring Bill';
+    document.getElementById('rec-name').value    = '';
+    document.getElementById('rec-amount').value  = '';
+    document.getElementById('rec-due-day').value = '';
+    document.getElementById('rec-note').value    = '';
+    document.getElementById('rec-modal').classList.add('open');
+  }
+
+  function openEditRecurring(id) {
+    const r = recurring.find(r => r.id === id);
+    if (!r) return;
+
+    recEditId = id;
+    document.getElementById('rec-modal-title').textContent  = 'Edit Recurring Bill';
+    document.getElementById('rec-name').value     = r.name;
+    document.getElementById('rec-amount').value   = r.amount;
+    document.getElementById('rec-due-day').value  = r.dueDay;
+    document.getElementById('rec-category').value = r.category;
+    document.getElementById('rec-note').value     = r.note || '';
+    document.getElementById('rec-modal').classList.add('open');
+  }
+
+  function saveRecurringBill() {
+    const name   = document.getElementById('rec-name').value.trim();
+    const amount = parseFloat(document.getElementById('rec-amount').value);
+    const dueDay = parseInt(document.getElementById('rec-due-day').value, 10);
+    const cat    = document.getElementById('rec-category').value;
+    const note   = document.getElementById('rec-note').value.trim();
+
+    if (!name)                              { alert('Please enter a bill name.');    return; }
+    if (!amount || amount <= 0)             { alert('Please enter a valid amount.'); return; }
+    if (!dueDay || dueDay < 1 || dueDay > 31) { alert('Due day must be 1–31.');     return; }
+
+    if (recEditId) {
+      const idx = recurring.findIndex(r => r.id === recEditId);
+      if (idx !== -1) recurring[idx] = { id: recEditId, name, amount, dueDay, category: cat, note };
+    } else {
+      recurring.push({ id: uid(), name, amount, dueDay, category: cat, note });
+    }
+
+    saveRecurringData();
+    closeRecModal();
+    renderRecurring();
+  }
+
+  function deleteRecurring(id) {
+    if (!confirm('Delete this recurring bill?')) return;
+    recurring = recurring.filter(r => r.id !== id);
+    saveRecurringData();
+    renderRecurring();
+  }
+
+  function closeRecModal() {
+    document.getElementById('rec-modal').classList.remove('open');
+    recEditId = null;
+  }
+
+  function handleRecOverlayClick(e) {
+    if (e.target === document.getElementById('rec-modal')) closeRecModal();
   }
 
   // ─────────────────────────────────────────────────────────
@@ -661,27 +1057,31 @@
 
   function setFilterType(type, btn) {
     filterType = type;
-    document.querySelectorAll('.filter-type button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('#filter-type-btns button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  }
+
+  function setFilterTag(tag, btn) {
+    filterTag = tag;
+    document.querySelectorAll('#filter-tag-btns button').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     render();
   }
 
   // Build the month dropdown from existing transactions + last 6 months
   function populateMonthFilter() {
-    const sel = document.getElementById('filter-month');
+    const sel      = document.getElementById('filter-month');
     const savedVal = sel.value;
 
     const months = new Set(transactions.map(t => t.date.slice(0, 7)));
-
-    // Always include the last 6 calendar months so the dropdown is never empty
     const now = new Date();
     for (let i = 0; i < 6; i++) {
       const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
       months.add(`${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`);
     }
 
-    const sorted = [...months].sort((a, b) => b.localeCompare(a)); // newest first
-
+    const sorted = [...months].sort((a, b) => b.localeCompare(a));
     sel.innerHTML = `<option value="all">All Months</option>` +
       sorted.map(m => {
         const [y, mo] = m.split('-');
@@ -689,20 +1089,20 @@
         return `<option value="${m}">${label}</option>`;
       }).join('');
 
-    // Restore previous selection when possible
     if (savedVal && sel.querySelector(`option[value="${savedVal}"]`)) {
       sel.value = savedVal;
     }
   }
 
-  // Return transactions matching the active filters, sorted newest-first
+  // Transactions matching ALL active filters, sorted newest-first
   function getFiltered() {
     const month = document.getElementById('filter-month').value;
     return transactions
       .filter(t => {
         const okMonth = (month === 'all') || t.date.startsWith(month);
         const okType  = (filterType === 'all') || (t.type === filterType);
-        return okMonth && okType;
+        const okTag   = (filterTag  === 'all') || (t.tag  === filterTag);
+        return okMonth && okType && okTag;
       })
       .sort((a, b) => b.date.localeCompare(a.date));
   }
@@ -721,8 +1121,119 @@
     document.getElementById('total-expense').textContent = fmt$(expense);
 
     const balEl = document.getElementById('net-balance');
-    balEl.textContent  = (balance < 0 ? '-' : '') + fmt$(Math.abs(balance));
-    balEl.style.color  = balance >= 0 ? 'var(--green)' : 'var(--red)';
+    balEl.textContent = (balance < 0 ? '-' : '') + fmt$(Math.abs(balance));
+    balEl.style.color = balance >= 0 ? 'var(--green)' : 'var(--red)';
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // RENDER — WEEKLY CASHFLOW
+  // ─────────────────────────────────────────────────────────
+
+  function renderWeeklyCashflow() {
+    function weekTotals(range) {
+      const inWeek  = transactions.filter(t => t.date >= range.start && t.date <= range.end);
+      const income  = inWeek.filter(t => t.type === 'income') .reduce((s, t) => s + t.amount, 0);
+      const expense = inWeek.filter(t => t.type === 'expense').reduce((s, t) => s + t.amount, 0);
+      return { income, expense, net: income - expense };
+    }
+
+    const tw = weekTotals(getWeekRange(0));
+    const lw = weekTotals(getWeekRange(-1));
+
+    document.getElementById('week-income').textContent  = fmt$(tw.income);
+    document.getElementById('week-expense').textContent = fmt$(tw.expense);
+
+    const netEl = document.getElementById('week-net');
+    netEl.textContent = (tw.net < 0 ? '-' : '') + fmt$(Math.abs(tw.net));
+    netEl.className   = 'mini-stat-value ' + (tw.net >= 0 ? 'green' : 'red');
+
+    // Last-week comparison line
+    const diff  = tw.net - lw.net;
+    const arrow = diff >= 0 ? '▲' : '▼';
+    const color = diff >= 0 ? 'var(--green)' : 'var(--red)';
+    document.getElementById('week-lastnet').innerHTML =
+      `Last week net: ${fmt$(lw.net)} ` +
+      `<span style="color:${color};font-weight:700">${arrow} ${fmt$(Math.abs(diff))}</span>`;
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // RENDER — TAX SET-ASIDE TRACKER
+  // ─────────────────────────────────────────────────────────
+
+  // Responds to the month filter only (tag/type filters are not applied).
+  // Tax target = total income for period × tax rate.
+  // Tax saved  = total amount of transactions tagged "tax" for period.
+  function renderTaxTracker() {
+    const month    = document.getElementById('filter-month').value;
+    const inPeriod = transactions.filter(t => (month === 'all') || t.date.startsWith(month));
+
+    const totalIncome = inPeriod
+      .filter(t => t.type === 'income')
+      .reduce((s, t) => s + t.amount, 0);
+
+    const taxSaved = inPeriod
+      .filter(t => t.tag === 'tax')
+      .reduce((s, t) => s + t.amount, 0);
+
+    const taxTarget = totalIncome * (taxPct / 100);
+    const taxGap    = Math.max(0, taxTarget - taxSaved);
+
+    document.getElementById('tax-target').textContent = fmt$(taxTarget);
+    document.getElementById('tax-saved').textContent  = fmt$(taxSaved);
+    document.getElementById('tax-gap').textContent    = fmt$(taxGap);
+  }
+
+  // ─────────────────────────────────────────────────────────
+  // RENDER — RECURRING BILLS
+  // ─────────────────────────────────────────────────────────
+
+  function renderRecurring() {
+    const list    = document.getElementById('rec-list');
+    const today   = new Date();
+    const todayNo = today.getDate();
+
+    if (recurring.length === 0) {
+      list.innerHTML = `<div class="empty-state" style="padding:16px 0 8px">No recurring bills yet.</div>`;
+      document.getElementById('rec-total').textContent = fmt$(0);
+      return;
+    }
+
+    // A bill is "due soon" if its due day falls within the next 7 days (inclusive of today)
+    function isDueSoon(dueDay) {
+      for (let i = 0; i <= 7; i++) {
+        const d = new Date(today);
+        d.setDate(todayNo + i);
+        if (d.getDate() === dueDay) return true;
+      }
+      return false;
+    }
+
+    const sorted = [...recurring].sort((a, b) => a.dueDay - b.dueDay);
+
+    list.innerHTML = sorted.map(r => {
+      const soon = isDueSoon(r.dueDay);
+      return `
+        <div class="rec-item${soon ? ' due-soon' : ''}">
+          <div class="rec-info">
+            <div class="rec-name">
+              ${escHtml(r.name)}
+              ${soon ? '<span class="due-soon-badge">Due Soon</span>' : ''}
+            </div>
+            <div class="rec-meta">
+              Due ${r.dueDay}${ordinal(r.dueDay)} · ${escHtml(r.category)}${r.note ? ' · ' + escHtml(r.note) : ''}
+            </div>
+          </div>
+          <div class="rec-amount">−${fmt$(r.amount)}</div>
+          <div class="rec-actions">
+            <button class="btn btn-gray btn-sm"   title="Edit"   onclick="openEditRecurring('${r.id}')">✏️</button>
+            <button class="btn btn-danger btn-sm" title="Delete" onclick="deleteRecurring('${r.id}')">🗑</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    const total = recurring.reduce((s, r) => s + r.amount, 0);
+    document.getElementById('rec-total').textContent = fmt$(total);
   }
 
   // ─────────────────────────────────────────────────────────
@@ -738,39 +1249,39 @@
       return;
     }
 
-    list.innerHTML = filtered.map(t => `
-      <div class="tx-item">
-        <div class="tx-icon ${t.type}">${ICONS[t.category] || '💰'}</div>
-        <div class="tx-info">
-          <div class="tx-cat">${t.category}</div>
-          <div class="tx-meta">${fmtDate(t.date)}${t.note ? ' · ' + escHtml(t.note) : ''}</div>
+    list.innerHTML = filtered.map(t => {
+      const tag = t.tag || 'personal';
+      return `
+        <div class="tx-item">
+          <div class="tx-icon ${t.type}">${ICONS[t.category] || '💰'}</div>
+          <div class="tx-info">
+            <div class="tx-cat">
+              ${escHtml(t.category)}
+              <span class="tag-pill ${tag}">${tag}</span>
+            </div>
+            <div class="tx-meta">${fmtDate(t.date)}${t.note ? ' · ' + escHtml(t.note) : ''}</div>
+          </div>
+          <div class="tx-amount ${t.type}">${t.type === 'income' ? '+' : '−'}${fmt$(t.amount)}</div>
+          <div class="tx-actions">
+            <button class="btn btn-gray btn-sm"   title="Edit"   onclick="openEdit('${t.id}')">✏️</button>
+            <button class="btn btn-danger btn-sm" title="Delete" onclick="deleteTransaction('${t.id}')">🗑</button>
+          </div>
         </div>
-        <div class="tx-amount ${t.type}">${t.type === 'income' ? '+' : '−'}${fmt$(t.amount)}</div>
-        <div class="tx-actions">
-          <button class="btn btn-gray btn-sm"   title="Edit"   onclick="openEdit('${t.id}')">✏️</button>
-          <button class="btn btn-danger btn-sm" title="Delete" onclick="deleteTransaction('${t.id}')">🗑</button>
-        </div>
-      </div>
-    `).join('');
-  }
-
-  // Simple HTML escape to prevent XSS from note text
-  function escHtml(str) {
-    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      `;
+    }).join('');
   }
 
   // ─────────────────────────────────────────────────────────
-  // RENDER — CANVAS BAR CHART  (last 6 months)
+  // RENDER — CANVAS BAR CHART  (last 6 months, all transactions)
   // ─────────────────────────────────────────────────────────
 
   function renderChart() {
     const canvas = document.getElementById('chart');
     const ctx    = canvas.getContext('2d');
 
-    // Respect device pixel ratio for crisp rendering on retina screens
-    const dpr      = window.devicePixelRatio || 1;
-    const cssW     = canvas.parentElement.clientWidth || 600;
-    const cssH     = 180;
+    const dpr  = window.devicePixelRatio || 1;
+    const cssW = canvas.parentElement.clientWidth || 600;
+    const cssH = 180;
 
     canvas.width        = cssW * dpr;
     canvas.height       = cssH * dpr;
@@ -778,12 +1289,10 @@
     canvas.style.height = cssH + 'px';
     ctx.scale(dpr, dpr);
 
-    const W = cssW;
-    const H = cssH;
-
+    const W = cssW, H = cssH;
     ctx.clearRect(0, 0, W, H);
 
-    // ── Build data for last 6 months ──
+    // Build monthly buckets for the last 6 months
     const buckets = [];
     const now = new Date();
     for (let i = 5; i >= 0; i--) {
@@ -805,14 +1314,13 @@
 
     const maxVal = Math.max(...buckets.flatMap(b => [b.income, b.expense]), 1);
 
-    // ── Layout constants ──
-    const padL  = 54, padR = 12, padT = 14, padB = 28;
+    const padL = 54, padR = 12, padT = 14, padB = 28;
     const chartW = W - padL - padR;
     const chartH = H - padT - padB;
     const groupW = chartW / buckets.length;
     const barW   = Math.min(groupW * 0.34, 22);
 
-    // ── Horizontal grid lines + Y-axis labels ──
+    // Horizontal grid lines + Y-axis labels
     const gridCount = 4;
     ctx.font      = '10px system-ui, sans-serif';
     ctx.textAlign = 'right';
@@ -829,28 +1337,28 @@
       ctx.stroke();
 
       ctx.fillStyle = '#9ca3af';
-      ctx.fillText(val >= 1000 ? '$' + (val / 1000).toFixed(1) + 'k' : '$' + Math.round(val), padL - 4, y + 3.5);
+      ctx.fillText(
+        val >= 1000 ? '$' + (val / 1000).toFixed(1) + 'k' : '$' + Math.round(val),
+        padL - 4, y + 3.5
+      );
     }
 
-    // ── Bars ──
+    // Bars + month labels
     buckets.forEach((b, idx) => {
       const cx = padL + idx * groupW + groupW / 2;
 
-      // Income bar (left of center)
       if (b.income > 0) {
         const h = (b.income / maxVal) * chartH;
         ctx.fillStyle = '#22c55e';
         ctx.fillRect(cx - barW - 2, padT + chartH - h, barW, h);
       }
 
-      // Expense bar (right of center)
       if (b.expense > 0) {
         const h = (b.expense / maxVal) * chartH;
         ctx.fillStyle = '#ef4444';
         ctx.fillRect(cx + 2, padT + chartH - h, barW, h);
       }
 
-      // Month label
       ctx.fillStyle = '#6b7280';
       ctx.textAlign = 'center';
       ctx.font      = '10px system-ui, sans-serif';
@@ -862,12 +1370,34 @@
   // EXPORT / IMPORT / CLEAR
   // ─────────────────────────────────────────────────────────
 
-  function exportData() {
+  function exportJSON() {
     const json = JSON.stringify(transactions, null, 2);
     const blob = new Blob([json], { type: 'application/json' });
     const a    = document.createElement('a');
     a.href     = URL.createObjectURL(blob);
     a.download = `budgetpro-export-${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function exportCSV() {
+    const header = 'id,type,amount,category,tag,date,note';
+    const rows   = transactions.map(t =>
+      [
+        t.id,
+        t.type,
+        t.amount,
+        `"${t.category}"`,
+        t.tag || 'personal',
+        t.date,
+        `"${(t.note || '').replace(/"/g, '""')}"`
+      ].join(',')
+    );
+    const csv  = [header, ...rows].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a    = document.createElement('a');
+    a.href     = URL.createObjectURL(blob);
+    a.download = `budgetpro-export-${new Date().toISOString().slice(0,10)}.csv`;
     a.click();
     URL.revokeObjectURL(a.href);
   }
@@ -882,7 +1412,8 @@
         const data = JSON.parse(e.target.result);
         if (!Array.isArray(data)) throw new Error('Expected an array');
         if (!confirm(`Import ${data.length} transaction(s)?\n\nThis will REPLACE all current data.`)) return;
-        transactions = data;
+        // Ensure every imported transaction has a tag field
+        transactions = data.map(t => ({ tag: 'personal', ...t }));
         saveData();
         render();
       } catch {
@@ -907,7 +1438,10 @@
   function render() {
     populateMonthFilter();
     renderSummary();
+    renderTaxTracker();    // depends on filter-month value set by populateMonthFilter
+    renderWeeklyCashflow();
     renderTransactions();
+    renderRecurring();
     renderChart();
   }
 
@@ -916,11 +1450,10 @@
   // ─────────────────────────────────────────────────────────
 
   function init() {
-    // Display today's date in the header
     document.getElementById('header-date').textContent =
       new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 
-    // Default the add-form date to today
+    // Default add-form date to today
     document.getElementById('form-date').value = new Date().toISOString().split('T')[0];
 
     // Populate category dropdowns
@@ -928,16 +1461,18 @@
     populateCategories('edit-category', 'income');
 
     // Load persisted data (or seed on first run)
+    loadSettings();
     loadData();
+    loadRecurringData();
 
     // Initial render
     render();
 
-    // Re-draw the chart when the window is resized
+    // Re-draw chart on window resize
     window.addEventListener('resize', renderChart);
 
     // Allow Enter key to submit the add-transaction form
-    ['form-amount', 'form-date', 'form-category', 'form-note'].forEach(id => {
+    ['form-amount', 'form-date', 'form-category', 'form-tag', 'form-note'].forEach(id => {
       document.getElementById(id).addEventListener('keydown', e => {
         if (e.key === 'Enter') submitForm();
       });
